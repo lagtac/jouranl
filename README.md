@@ -1,6 +1,6 @@
 # Jouranl
 
-Jouranl is a personal note taking tool that works on the command line.
+Jouranl is a personal note taking tool that works on the command line. https://github.com/lagtac/jouranl
 
     $ jour write: This is my first entry.
   
