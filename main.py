@@ -10,7 +10,7 @@ import sqlite3
 
 JOURNAL_PATH = join(os.getenv('HOME'), '.journal')
 TODAY_PATH = join(JOURNAL_PATH, date.today().isoformat())
-
+ONE_FILE_PER_ENTRY = True
 
 def get_logger():
     ''' Get logger '''
@@ -32,16 +32,18 @@ def get_logger():
 
 logger = get_logger()
 
-ap = argparse.ArgumentParser(description='Note-taking program')
-asp = ap.add_subparsers(help='commands', dest='command')
-wp = asp.add_parser('write',  help='Write an entry')
-wp.add_argument('entry', nargs='+')
 
-# exit(0)
+def parse_args():
+    ''' Parse cli arguments. '''
+    ap = argparse.ArgumentParser(description='Note-taking program')
+    sp = ap.add_subparsers(help='commands', dest='command')
+    wp = sp.add_parser('write',  help='Write an entry')
+    wp.add_argument('entry', nargs='+')
+    return ap.parse_args()
 
 
 def init():
-    ''' 
+    '''
     Initialize journal. Create root and today path if nesesary
     '''
     if not exists(TODAY_PATH):
@@ -59,14 +61,14 @@ def write(entry):
 
 
 def main(args):
+    ''' Main function '''
     init()
     if args.command == 'write':
         write(' '.join(args.entry))
-        #print(args.entry)
+        # print(args.entry)
         logger.debug('Write entry in file: %s', TODAY_PATH)
 
 
 if __name__ == '__main__':
     logger.debug('Starting the journal.')
-    args = ap.parse_args()
-    main(args)
+    main(parse_args())
