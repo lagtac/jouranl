@@ -24,3 +24,5 @@ Jouranl is a personal note taking tool that works on the command line. https://g
 
     $ jour list --all
     $ jour list --first
+    $ jour list --today
+    

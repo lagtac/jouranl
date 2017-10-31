@@ -12,6 +12,7 @@ JOURNAL_PATH = join(os.getenv('HOME'), '.journal')
 TODAY_PATH = join(JOURNAL_PATH, date.today().isoformat())
 ONE_FILE_PER_ENTRY = True
 
+
 def get_logger():
     ''' Get logger '''
     # https://docs.python.org/3/library/logging.html#logrecord-attributes
@@ -33,14 +34,20 @@ def get_logger():
 logger = get_logger()
 
 
-def parse_args():
+def parse_args(args=None):
     ''' Parse cli arguments. '''
     ap = argparse.ArgumentParser(description='Note-taking program')
     sp = ap.add_subparsers(help='commands', dest='command')
-    wp = sp.add_parser('write',  help='Write an entry')
-    wp.add_argument('entry', nargs='+')
-    return ap.parse_args()
+    wp = sp.add_parser('write', help='Write an entry')
+    wp.add_argument('entry', nargs='*', help='The text')
+    wp.add_argument('-p', dest='entry2', action='append', nargs='*', help='A paragraph')
+    wp.add_argument('-t', dest='entry2', action='append', nargs='*', help='A title')
+    lp = sp.add_parser('list',  help='List entries')
+    lp.add_argument('-a','--all', action='store_true', help='List all entries.')
+    return ap.parse_args(args)
 
+#print(parse_args())
+#exit(0)
 
 def init():
     '''
